@@ -1,4 +1,5 @@
 
+# This solution is far from complete
 
 string1 = (bin(int("1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736", 16))[2:])
 string2 = (bin(int(ord("A")))[2:])
