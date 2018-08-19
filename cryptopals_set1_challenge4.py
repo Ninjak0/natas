@@ -1,4 +1,3 @@
-
 def english_test(bytes_):
     # From http://www.data-compression.com/english.html
     freqs = {
@@ -59,8 +58,21 @@ def get_best_result(cypher):
 
     return result.decode("ascii")
 
-cypher = "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736"
-hexed_cypher = bytes.fromhex(cypher)
+data_file = "4.txt"
 
-print(get_best_result(hexed_cypher))
+with open(data_file) as lines:
+    result_list = []
+    for line in list(lines):
+        best = get_best_result(bytes.fromhex(line.strip()))
+        result_list.append(best)
+
+    scored = 0
+    new_best = ""
+    for i in result_list:
+        new_score = english_test(i)
+        if new_score > scored:
+            scored = new_score
+            new_best = i
+
+    print(new_best)
 
