@@ -74,5 +74,5 @@ with open(data_file) as lines:
             scored = new_score
             new_best = i
 
-    print(new_best)
+    # print(new_best)
 

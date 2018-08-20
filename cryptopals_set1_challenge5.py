@@ -13,7 +13,7 @@ I go crazy when I hear a cymbal""".encode('ascii')
 
 result_1 = xor_repeated_key(string, key).hex()
 
-print(result_1)
+# print(result_1)
 
 result_2 = xor_repeated_key(bytes.fromhex(result_1), key)
-print(result_2.decode("ascii"))
+# print(result_2.decode("ascii"))
