@@ -39,6 +39,12 @@ def english_test(bytes_):
     return score
 
 def find_distance(string_1, string_2):
+    """
+     Expects strings as arguments
+     Returns an integer
+     This takes two string and gives the number of bits
+     that differs between them
+    """
     distance = 0
     bin_1 = bin(int(binascii.hexlify(string_1.encode("ascii")), 16))[2:]
     bin_2 = bin(int(binascii.hexlify(string_2.encode("ascii")), 16))[2:]
@@ -48,14 +54,15 @@ def find_distance(string_1, string_2):
     return distance
 
 with open('6.txt') as input_file:
-    ciphertext = base64.b64decode(input_file.read())
+    text = input_file.readlines()
+    ciphertext = base64.b64decode("".join(text))
 
-def break_repeating_key_xor(ciphertext):
+def guess_key_size(ciphertext):
     average_distances = []
     for keysize in range(2, 41):
         distances_list = []
 
-        chunks = [ciphertext.decode("ascii")[i:i+keysize] for i in range(0, len(ciphertext.decode("ascii")), keysize)]
+        chunks = [bytes.hex(ciphertext)[i:i+keysize] for i in range(0, len(bytes.hex(ciphertext)), keysize)]
 
         while True:
             try:
@@ -77,16 +84,14 @@ def break_repeating_key_xor(ciphertext):
         }
         average_distances.append(result)
 
-    possible_key_lengths = sorted(average_distances, key=lambda x: x['avg distance'])[0]
+    possible_keys = sorted(average_distances, key=lambda x: x['avg distance'])[0]
+    return possible_keys
 
-    key = b""
-    possible_key_length = possible_key_lengths["key"]
 
-    for i in range(possible_key_length):
-        block = b""
-        for j in range(i, len(ciphertext), possible_key_length):
-            block += bytes([ciphertext[j]])
+testing = "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736"
 
-    print(block)
+print(guess_key_size(ciphertext))
 
-break_repeating_key_xor(ciphertext)
+print(bytes.hex(bytes.fromhex(testing)))
+print(guess_key_size(bytes.fromhex(testing)))
+print(len(testing))
