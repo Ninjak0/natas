@@ -10,7 +10,9 @@ string_2 = "686974207468652062756c6c277320657965"
 bytes_1 = bytes.fromhex(string_1)
 bytes_2 = bytes.fromhex(string_2)
 
+
 xored = xor_bytes(bytes_1, bytes_2)
 print(xored)
 print(xored.hex())
+
 
