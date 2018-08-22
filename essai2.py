@@ -1,8 +1,6 @@
+
 def english_test(bytes_):
     # From http://www.data-compression.com/english.html
-    """
-    Gives a score based on the possibility of the string being in English
-    """
     freqs = {
         'a': 0.0651738,
         'b': 0.0124248,
@@ -38,32 +36,18 @@ def english_test(bytes_):
             score += freqs[i]
     return score
 
-
-
 def xor_bytes(a, b):
-    """
-     Returns a XOR'd bytes result between two byte strings
-    """
     return bytes([x ^ y for x, y in zip(a, b)])
 
 def xor_repeated_key(message, key):
-    """
-    Divides a byte string by the length of a given byte string key
-    and XOR each chunk using the key
-    """
     repeats, remainder = divmod(len(message), len(key))
     return xor_bytes(message, bytes(key * repeats + key[:remainder]))
 
 
-def brute_force_single_char_xor(cypher):
-    """
-    Takes a byte string and test all the possible possible values
-    between 0 and 255, then assigns a score.
-    Returns a bytes result with the best score and the key (int) used.
-    """
+def get_best_result(cypher):
     key_range = range(255)
     best_score = 0
-    result = bytes()
+    result = b""
     best_key = 0
     for key in key_range:
         try:
@@ -76,19 +60,9 @@ def brute_force_single_char_xor(cypher):
         except:
             pass
 
-    return result, best_key
+    return result.decode("ascii"), best_key
 
-def find_distance(bytes_1, bytes_2):
-    """
-     Expects byte strings as arguments
-     Returns an integer
-     This takes two string and gives the number of bits
-     that differs between them
-    """
-    distance = 0
-    for x, y in zip(bytes_1, bytes_2):
-        difference = x ^ y
-        distance += sum([1 for bit in bin(difference) if bit == "1"])
-    return distance
+cypher = "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736"
+hexed_cypher = bytes.fromhex(cypher)
 
-
+print(get_best_result(hexed_cypher))

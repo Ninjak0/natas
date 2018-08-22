@@ -1,5 +1,6 @@
 import base64
-from utils import find_distance
+from utils import find_distance, brute_force_single_char_xor
+from essai import bruteforce_single_char_xor
 
 with open('6.txt') as input_file:
     text = input_file.readlines()
@@ -32,10 +33,21 @@ def guess_key_size(ciphertext):
         }
         average_distances.append(result)
 
-    possible_keys = sorted(average_distances, key=lambda x: x['avg distance'])[:3]
+    possible_keys = sorted(average_distances, key=lambda x: x['avg distance'])[:1]
 
     return [possible_key["key"] for possible_key in possible_keys]
 
+def break_into_blocks(ciphertext):
+    key = b""
+    keysizes = guess_key_size(ciphertext)
+    for keysize in keysizes:
+        for i in range(keysize):
+            block = b""
+            for j in ciphertext[i::keysize]:
+                block += bytes([j])
+            key += bytes(bruteforce_single_char_xor(block)[1])
+        print(key)
 
 
-print(guess_key_size(ciphertext))
+
+print(break_into_blocks(ciphertext))
