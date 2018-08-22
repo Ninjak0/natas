@@ -66,3 +66,8 @@ cypher = "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736"
 hexed_cypher = bytes.fromhex(cypher)
 
 print(get_best_result(hexed_cypher))
+
+s1 = 110
+s2 = 124
+
+print(s1 ^ s2)
