@@ -43,6 +43,13 @@ def xor_repeated_key(message, key):
     repeats, remainder = divmod(len(message), len(key))
     return xor_bytes(message, bytes(key * repeats + key[:remainder]))
 
+def single_char_xor(input_bytes, char_value):
+    """Returns the result of each byte being XOR'd with a single value.
+    """
+    output_bytes = b''
+    for byte in input_bytes:
+        output_bytes += bytes([byte ^ char_value])
+    return output_bytes
 
 def get_best_result(cypher):
     key_range = range(255)
@@ -51,7 +58,7 @@ def get_best_result(cypher):
     best_key = 0
     for key in key_range:
         try:
-            hexed_message = xor_repeated_key(cypher, bytes.fromhex(str(key)))
+            hexed_message = single_char_xor(cypher, key)
             new_score = english_test(hexed_message.decode("ascii"))
             if new_score > best_score:
                 best_score = new_score
