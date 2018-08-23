@@ -49,6 +49,6 @@ def break_into_blocks_to_get_key(ciphertext):
 
 
 cipher_key = break_into_blocks_to_get_key(ciphertext)
-print(f"Cipher key: {cipher_key}")
-print()
 print(xor_repeated_key(ciphertext, cipher_key).decode("ascii"))
+print()
+print(f"Cipher key: {cipher_key}")
